@@ -29,12 +29,12 @@ public:
         }
     }
 
-    void vendiAuto(int indice) {
-        if (indice >= 0 && indice < static_cast<int>(magazzino.size())) {
-            magazzino.erase(magazzino.begin() + indice);
+    void vendiAuto(int targasearch) {
+        if (targasearch >= 0 && targasearch < static_cast<int>(magazzino.size())) {
+            magazzino.erase(magazzino.begin() + targasearch);
             cout << "Auto venduta con successo.\n";
         } else {
-            cout << "Indice non valido.\n";
+            cout << "targasearch non valido.\n";
         }
     }
 
@@ -48,39 +48,53 @@ private:
 Auto inserisciDatiAuto() {
     Auto nuovaAuto;
     cout << "Inserisci i dati della nuova auto:" << endl;
-    // Richiedi l'inserimento della targa finché non è di lunghezza corretta
     do {
-        cout << "Targa (lunghezza esatta di 7 caratteri): ";
+        cout << "Targa: ";
         cin >> nuovaAuto.targa;
         if (nuovaAuto.targa.length() != 7) {
             cout << "La targa deve essere lunga esattamente 7 caratteri. Riprova.\n";
         }
     } while (nuovaAuto.targa.length() != 7);
 
-    // Richiedi l'inserimento del modello finché non è di lunghezza corretta
     do {
-        cout << "Modello (lunghezza minima 3 caratteri, massima 10 caratteri): ";
+        cout << "Modello: ";
         cin >> nuovaAuto.modello;
         if (nuovaAuto.modello.length() < 3 || nuovaAuto.modello.length() > 10) {
             cout << "Il modello deve avere una lunghezza compresa tra 3 e 10 caratteri. Riprova.\n";
         }
     } while (nuovaAuto.modello.length() < 3 || nuovaAuto.modello.length() > 10);
 
-    // Richiedi l'inserimento della marca finché non è di lunghezza corretta
     do {
-        cout << "Marca (lunghezza minima 2 caratteri, massima 10 caratteri): ";
+        cout << "Marca: ";
         cin >> nuovaAuto.marca;
         if (nuovaAuto.marca.length() < 2 || nuovaAuto.marca.length() > 10) {
             cout << "La marca deve avere una lunghezza compresa tra 2 e 10 caratteri. Riprova.\n";
         }
     } while (nuovaAuto.marca.length() < 2 || nuovaAuto.marca.length() > 10);
 
-    cout << "Cavalli: ";
-    cin >> nuovaAuto.cavalli;
-    cout << "Cilindrata: ";
+    do {
+        cout << "Cavalli: ";
+        cin >> nuovaAuto.cavalli;
+        if (nuovaAuto.cavalli < 5 || nuovaAuto.cavalli > 2500) {
+            cout << "I cavalli devono essere compresi tra 5 e 2500. Riprova.\n";
+        }
+    } while (nuovaAuto.cavalli < 5 || nuovaAuto.cavalli > 2500);
+
+ do {
+       cout << "Cilindrata: ";
     cin >> nuovaAuto.cilindrata;
-    cout << "KM Percorsi: ";
-    cin >> nuovaAuto.kmPercorsi;
+        if (nuovaAuto.cilindrata < 40 || nuovaAuto.cilindrata > 20000) {
+            cout << "La cilindrata deve essere compresa tra 40 e 20'000. Riprova.\n";
+        }
+    } while (nuovaAuto.cilindrata < 40 || nuovaAuto.cilindrata > 20000);
+    
+    do {
+     	cout << "KM Percorsi: ";
+    	cin >> nuovaAuto.kmPercorsi;
+        if (nuovaAuto.kmPercorsi < 0 || nuovaAuto.kmPercorsi > 500000) {
+            cout << "I chilometri percorsi devono essere compresi tra 0 e 50'000. Riprova.\n";
+        }
+    } while (nuovaAuto.cilindrata  < 0 || nuovaAuto.kmPercorsi > 500000);
     return nuovaAuto;
 }
 int main() {
@@ -107,10 +121,15 @@ int main() {
                 concessionario.visualizzaMagazzino();
                 break;
             case 3: {
-                int indice;
-                cout << "Inserisci l'indice dell'auto da vendere: ";
-                cin >> indice;
-                concessionario.vendiAuto(indice);
+                string targasearch;
+                 do {
+        		cout << "Inserisci la targa della macchina da cercare: ";
+        		cin >> targasearch;
+       			if (targasearch.length() != 7) {
+            	cout << "La targa deve essere lunga esattamente 7 caratteri. Riprova.\n";
+        }
+    } while (targasearch.length() != 7);
+                concessionario.vendiAuto(targasearch);
                 break;
             }
             case 4:
