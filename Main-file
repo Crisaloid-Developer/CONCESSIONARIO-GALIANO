@@ -1,0 +1,89 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Auto {
+private:
+    string targa;
+    string modello;
+    string marca;
+    int cavalli;
+    int cilindrata;
+    int kmPercorsi;
+
+public:
+    Auto(string t, string m, string ma, int c, int ci, int km) : targa(t), modello(m), marca(ma), cavalli(c), cilindrata(ci), kmPercorsi(km) {}
+
+    void visualizza() {
+        cout << "Targa: " << targa << ", Modello: " << modello << ", Marca: " << marca << ", Cavalli: " << cavalli << ", Cilindrata: " << cilindrata << ", KM Percorsi: " << kmPercorsi << endl;
+    }
+
+    friend class Concessionario;
+};
+
+class Concessionario {
+private:
+    vector<Auto> autoInMagazzino;
+
+public:
+    void aggiungiAuto(const Auto& autoDaAggiungere) {
+        autoInMagazzino.push_back(autoDaAggiungere);
+    }
+
+    void visualizzaMagazzino() {
+        for (const auto& autoInVendita : autoInMagazzino) {
+            autoInVendita.visualizza();
+        }
+    }
+
+    void vendiAuto(int index) {
+        if (index >= 0 && index < autoInMagazzino.size()) {
+            autoInMagazzino.erase(autoInMagazzino.begin() + index);
+            cout << "Auto venduta con successo." << endl;
+        } else {
+            cout << "Indice non valido." << endl;
+        }
+    }
+};
+
+int main() {
+    Concessionario concessionario;
+
+    Auto auto1("AB123CD", "Panda", "Fiat", 60, 1200, 20000);
+    Auto auto2("XY987ZW", "Golf", "Volkswagen", 110, 1600, 15000);
+
+    concessionario.aggiungiAuto(auto1);
+    concessionario.aggiungiAuto(auto2);
+
+    int scelta;
+    do {
+        cout << "\nMenu:" << endl;
+        cout << "1. Visualizza magazzino" << endl;
+        cout << "2. Vendita auto" << endl;
+        cout << "3. Esci" << endl;
+        cout << "Scelta: ";
+        cin >> scelta;
+
+        switch (scelta) {
+            case 1:
+                cout << "\nMagazzino attuale:" << endl;
+                concessionario.visualizzaMagazzino();
+                break;
+            case 2:
+                int index;
+                cout << "Inserisci l'indice dell'auto da vendere: ";
+                cin >> index;
+                concessionario.vendiAuto(index);
+                break;
+            case 3:
+                cout << "Arrivederci!" << endl;
+                break;
+            default:
+                cout << "Scelta non valida." << endl;
+        }
+    } while (scelta != 3);
+
+    return 0;
+}
